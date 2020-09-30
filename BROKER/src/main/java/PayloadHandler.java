@@ -13,7 +13,11 @@ public int handlePayload(Socket clientSocket, Payload payload) {
 
     this.clientSocket = clientSocket;
 
-    if (payload.getId() == 0) {
+    if(payload.getId() == 0)
+    {
+        PayloadStorage.add(payload);
+        return 1;
+    }else if (payload.getId() == 1) {
         PrintWriter writer = null;
         for (Payload payload1 : PayloadStorage.payloads) {
             if (payload1.getMessage().toLowerCase().contains(payload.getTopic().toLowerCase())) {
@@ -26,7 +30,7 @@ public int handlePayload(Socket clientSocket, Payload payload) {
                 }
             }
         }
-        return 0;
+        return 1;
     } else {
         return -1;
     }

@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("com.utm.receiver.Receiver...");
+        System.out.println("Subscriber...");
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the topic:");

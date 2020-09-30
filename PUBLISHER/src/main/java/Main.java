@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("com.utm.publisher.Publisher...");
+        System.out.println("Publisher...");
 
         PublisherSocket publisherSocket = new PublisherSocket(Constants.HOSTNAME, Constants.PORT);
 

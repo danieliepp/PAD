@@ -34,6 +34,7 @@ public class SubscriberSocket {
     {
         try
         {
+            System.out.println("sending");
             writer.println(payload);
             writer.flush();
 

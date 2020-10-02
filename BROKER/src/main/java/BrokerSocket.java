@@ -8,7 +8,6 @@ import java.net.Socket;
  */
 public class BrokerSocket {
     private ServerSocket serverSocket;
-    private Socket clientSocket;
 
     public void startBroker(){
         try {
@@ -20,7 +19,7 @@ public class BrokerSocket {
         while (true) {
             try {
                 //Listens for a connection to be made to this socket and accepts it.
-                clientSocket = serverSocket.accept();
+                Socket clientSocket = serverSocket.accept();
                 //Let's start a thread that will maintain the broker on it!
                 BrokerThread brokerThread = new BrokerThread(clientSocket);
                 Thread thread = new Thread(brokerThread);

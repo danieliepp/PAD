@@ -1,5 +1,4 @@
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -7,24 +6,20 @@ import java.net.Socket;
  * -=[ -_- -_- -_- -_- ]=-
  */
 public class PayloadHandler {
-    private Socket clientSocket;
 
-public int handlePayload(Socket clientSocket, Payload payload) {
+    public int handlePayload(Socket clientSocket, Payload payload) {
 
-    this.clientSocket = clientSocket;
-
-    if(payload.getId() == 0)
-    {
+        if(payload.getId() == 0) {
         PayloadStorage.add(payload);
         return 1;
-    }else if (payload.getId() == 1) {
-        PrintWriter writer = null;
+    } else if (payload.getId() == 1) {
         for (Payload payload1 : PayloadStorage.payloads) {
-            if (payload1.getMessage().toLowerCase().contains(payload.getTopic().toLowerCase())) {
+            if (payload1.getTopic().toLowerCase().contains(payload.getTopic().toLowerCase())) {
                 try {
-                    writer = new PrintWriter(clientSocket.getOutputStream());
-                    writer.println("TOPIC:" + payload1.getTopic() + "\n" + "MESSAGE:" + payload1.getMessage());
-                    writer.flush();//clear the stream of any element that may be or maybe not inside the stream
+                    System.out.println("the topic is:  " + payload.getTopic() + " and " + payload1.getTopic());
+                    PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())));
+                    writer.write("TOPIC:" + payload1.getTopic() + "\n" + "MESSAGE:" + payload1.getMessage());
+                    writer.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -15,7 +15,9 @@ public class Main {
         System.out.println("Enter the topic:");
         String topic = scanner.nextLine();
 
-        Payload payload = new Payload(0, topic, null);
+        Payload payload = new Payload();
+        payload.setId(0);
+        payload.setTopic(topic);
 
         SubscriberSocket socket = new SubscriberSocket(Constants.HOSTNAME, Constants.PORT);
 

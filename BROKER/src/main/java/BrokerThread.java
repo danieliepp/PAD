@@ -44,12 +44,16 @@ public class BrokerThread implements Runnable {
 
                 outputLine = handler.handlePayload(clientSocket, payload);
                 if(outputLine == 0){
-                    writer.println("By receiver!");
+                    writer.println("Disconnecting...");
                     writer.flush();
                     writer.close();
                     reader.close();
                     clientSocket.close();
                 }
+//                else if(outputLine == 1){
+//                    writer = new PrintWriter(clientSocket.getOutputStream());
+//                    writer.print("!!!!!!!");
+//                }
             }
         }catch (IOException e){
             System.out.println(e.getMessage());

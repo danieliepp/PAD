@@ -36,6 +36,7 @@ public class PublisherSocket {
 
     public void send(String payload)
     {
+        System.out.println(payload);
         writer.println(payload);
         writer.flush();
     }

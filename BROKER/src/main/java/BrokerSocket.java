@@ -139,7 +139,7 @@ public class BrokerSocket implements IReadWrite {
                 }
             }
         };
-        Runnable r=new Runnable() {
+        Runnable r = new Runnable() {
             @Override
             public void run() {
                 for (int i=0;i<letterList.size();i++)

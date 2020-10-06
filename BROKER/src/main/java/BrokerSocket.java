@@ -1,12 +1,10 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -33,6 +31,7 @@ public class BrokerSocket implements IReadWrite {
     @Override
     public String readAsync() {
         Socket connectionSocket = null;
+        //The Consumer interface is used if you need to pass an object to the input and perform some operations on it without returning a result.
         Consumer<Receiver> styleRec = (Receiver p) -> System.out.println("Name: "+p.getName() +", Socket: "+p.getSocket());
         Consumer<Letter> printLetterConsumer= (Letter l)-> System.out.print("Name:"+l.getName()+", Message text: "+l.getMessage());
         try {
@@ -111,6 +110,48 @@ public class BrokerSocket implements IReadWrite {
 
     @Override
     public void writeAsync(String message) {
-
+        BiConsumer<Receiver, Letter> receiverLetterMatch = (receiver, letter) -> {
+            if(receiver.getName().equals(letter.getName())){
+                try {
+                    OutputStream outputStream = receiver.getSocket().getOutputStream();
+                    PrintWriter printWriter = new PrintWriter(outputStream, true);
+                    printWriter.println(letter.getMessage()); //send to the server
+                    printWriter.flush(); // flush the data
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                letter.setSent(true);
+                System.out.println("Receiver name: "+receiver.getName());
+                System.out.println("Letter name: "+letter.getName());
+                System.out.println("Message: "+letter.getMessage()+" was transmitted to "+letter.getName()+" successfully...");
+                if(letter.getMessage().equals("disconnect \n")){
+                    receiver.setConnected(false);
+                    try {
+                        receiver.getSocket().close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Runnable r=new Runnable() {
+            @Override
+            public void run() {
+                for (int i=0;i<letterList.size();i++)
+                {
+                    int finalI = i;
+                    receiverList.forEach(a -> receiverLetterMatch.accept(a,letterList.get(finalI)));
+                }
+                letterList.removeIf(l-> l.isSent());
+                receiverList.removeIf(r->r.isConnected());
+            }
+        };
+        Thread t=new Thread(r);
+        t.start();
     }
 }

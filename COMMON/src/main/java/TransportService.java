@@ -1,15 +1,13 @@
-package xPlatform;
-
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
 import java.util.concurrent.*;
-import java.util.function.Predicate;
 
 /**
- * Created by Vladok on 14.09.2016.
+ * Copyright [2020] [TBerloffe]
+ * -=[ -_- -_- -_- -_- ]=-
  */
-public class TransportService implements IOperation{
+
+public class TransportService implements IReadWrite{
     Socket transport;                           //127.0.0.1 port 1488
     public TransportService(Socket transport) {
         this.transport = transport;
@@ -47,7 +45,7 @@ public class TransportService implements IOperation{
         return message;
     }
     @Override
-    public void writeAsync(String message) {
+    public void writeAsync(final String message) {
         Thread thread =new Thread(new Runnable() {
             @Override
             public void run() {

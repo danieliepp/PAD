@@ -9,10 +9,9 @@ public class Receiver {
     private String name;
     private boolean isConnected;
 
-    public Receiver(Socket socket, String name, boolean isConnected) {
+    public Receiver(Socket socket, String name) {
         this.socket = socket;
         this.name = name;
-        this.isConnected = isConnected;
     }
 
     public Socket getSocket() {

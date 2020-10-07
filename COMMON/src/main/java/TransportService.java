@@ -8,7 +8,7 @@ import java.util.concurrent.*;
  */
 
 public class TransportService implements IReadWrite{
-    Socket transport;                           //127.0.0.1 port 1488
+    Socket transport;
     public TransportService(Socket transport) {
         this.transport = transport;
     }

@@ -23,7 +23,6 @@ public class DataParserManager {
         List<String> receivers = new ArrayList<String>();
         for(int i=0;i<doc.getChildNodes().item(0).getChildNodes().getLength();i++)
             receivers.add(i,doc.getChildNodes().item(0).getChildNodes().item(i).getTextContent());
-            System.out.println(receivers.toString() + "   26 dataparsermanager");
         return receivers;
     }
 

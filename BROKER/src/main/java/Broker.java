@@ -6,7 +6,7 @@ import java.io.IOException;
  */
 public class Broker {
     public static void main(String[] args) throws IOException {
-        System.out.println("BROKER OPTIONS:");
+        System.out.println("BROKER");
         IReadWrite broker=new BrokerSocket();
         String msg;
         while(true)
@@ -14,13 +14,11 @@ public class Broker {
             while(!(msg=broker.readAsync()).isEmpty())
                 if(msg.equals("invalid"))
                 {
-                    System.out.println("--Broker loop--");
-                    System.out.println("--INVALID MESSAGE--");
+                    System.out.println("INVALID MESSAGE");
                 }
                 else
                 {
-                    System.out.println("--Broker loop--");
-                    System.out.println("--VALID MESSAGE--");
+                    System.out.println("VALID MESSAGE");
                     broker.writeAsync(msg);
                 }
         }

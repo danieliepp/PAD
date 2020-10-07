@@ -57,25 +57,27 @@ public class BrokerSocket implements IReadWrite {
                 }catch (IOException e){
                     e.printStackTrace();
                 }
+
                 String message = result.toString();
+                System.out.println("---------------------       " + message);
                 String answer = "valid";
                 System.out.println("Data has been received from buffer");
-                System.out.println(message + "  brokerscoket 67");
+                System.out.println(message);
 
                 DataParserManager xml = new DataParserManager(message);
                 if(message.length()>=9 && message.substring(0,8).equals("connect ")) {
                     String name = message.substring(8, message.length());
                     System.out.println("** " + name + " parsed to be connected");
-                    receiverList.add(new Receiver(finalConnectionSocket,name, true));
+                    receiverList.add(new Receiver(finalConnectionSocket,name));
+
                 } else if(message.length()>=12 && message.substring(0,11).equals("disconnect ")) {
                     String name = message.substring(11, message.length());
                     System.out.println("parsed receiver: " + name + " to be disconnected");
 
                     letterList.add(new Letter(name, "disconnect\n"));
                 }else if(xml.isXML()){
-                    System.out.println("--Parsed data--");
+                    System.out.println("Parsed data");
                     String msg=xml.getMessage();
-                    System.out.println("Message from method : "+msg);
                     List<String>rec=xml.getReceivers();
                     System.out.println("Receivers : "+rec);
                     for (String s : rec) letterList.add(new Letter(s, msg + "\n"));
@@ -101,6 +103,7 @@ public class BrokerSocket implements IReadWrite {
         while(!future.isDone());
         try{
             message=future.get();
+            System.out.println("finished getting data");
         } catch (InterruptedException | ExecutionException ie) {
             ie.printStackTrace(System.err);
         }

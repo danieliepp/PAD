@@ -26,32 +26,37 @@ import java.util.List;
  */
 public class Publisher {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, TransformerException, ParserConfigurationException {
+        while (true) {
         String message;
         String receiver;
+
         List<String> receivers = new ArrayList<String>();
         Socket socket;
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
         socket = new Socket(Constants.HOSTNAME, Constants.PORT);
         System.out.println("Input the receivers: (enter ok after typing the receivers)");
-        while (!(receiver = bufferedReader.readLine()).equals("ok")){
+        while (!(receiver = bufferedReader.readLine()).equals("ok")) {
             receivers.add(receiver);
         }
-        System.out.println("Input the message: ");
-        message = bufferedReader.readLine();
-        try {
-            message = formXMLMessage(message, receivers);
-            System.out.println("Serialized data in XML: ");
-            System.out.println(message);
-            IReadWrite readWrite = new TransportService(socket);
-            readWrite.writeAsync(message);
-            System.out.println("data has been sent");
-        } catch (ParserConfigurationException e) {
-            System.out.println("connection failed");
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
+
+            System.out.println("Input the message: ");
+            message = bufferedReader.readLine();
+            try {
+
+                message = formXMLMessage(message, receivers);
+                System.out.println("Serialized data in XML: ");
+                System.out.println(message);
+                IReadWrite readWrite = new TransportService(socket);
+                readWrite.writeAsync(message);
+                System.out.println("data has been sent");
+            } catch (ParserConfigurationException e) {
+                System.out.println("connection failed");
+                e.printStackTrace();
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            }
         }
     }
 

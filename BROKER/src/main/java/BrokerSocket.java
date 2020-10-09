@@ -59,7 +59,6 @@ public class BrokerSocket implements IReadWrite {
                 }
 
                 String message = result.toString();
-                System.out.println("---------------------       " + message);
                 String answer = "valid";
                 System.out.println("Data has been received from buffer");
                 System.out.println(message);

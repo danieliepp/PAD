@@ -9,6 +9,7 @@ import java.util.concurrent.*;
 
 public class TransportService implements IReadWrite{
     Socket transport;
+
     public TransportService(Socket transport) {
         this.transport = transport;
     }
@@ -23,6 +24,7 @@ public class TransportService implements IReadWrite{
                 try {
                     istream = transport.getInputStream();
                     BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
+                    //citim comanda
                     if (!(partlyTransData = receiveRead.readLine()).isEmpty())
                         result.append(partlyTransData.trim());
                 } catch (IOException e) {

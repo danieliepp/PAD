@@ -16,11 +16,15 @@ public class Subscriber {
         String message;
         String command;
 
+        //initiam buferul pentru citirea din consola
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        //cream obiectul socket si transmitem
         socket = new Socket(Constants.HOSTNAME, Constants.PORT);
 
         System.out.println("Input your name: ");
+        //citim numele subscriberului din consola
         name = bufferedReader.readLine();
+        //initializam interfata
         IReadWrite readWrite = new TransportService(socket);
         System.out.println("Input \"connect\" command to be connected to broker");
         command=bufferedReader.readLine();
